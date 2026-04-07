@@ -35,6 +35,26 @@ Run these phases sequentially. Present the plan after Phase 2 and wait for user 
 
    Once the range is confirmed, state it explicitly before proceeding to Phase 2 (e.g., "Validating over blocks 19000000–19500000 / 2024-01-01 to 2024-01-31").
 
+4. **Check if the dataset has data for the validated range**:
+
+   Query (or inspect) the dataset for the confirmed range. If the result is empty or has insufficient rows:
+
+   **Phase 1.5 — Collect Missing Data**
+
+   a. **Understand the codebase** — explore the project directory to identify:
+      - The indexer/pipeline entrypoint (look for `package.json` scripts, `Makefile`, `README`, `docker-compose.yml`, CLI entrypoints)
+      - How to configure the block/time range (env vars, config files, CLI flags)
+      - Where output data is written (database connection string, output path)
+
+   b. **Confirm before running** — tell the user what command will be executed and ask for approval:
+      > "No data found for the requested range. I'll run `<command>` to collect it. Proceed?"
+
+   c. **Run the project** to collect data for the required range using the Bash tool. Stream or tail output to confirm progress. Wait for completion.
+
+   d. **Re-verify** that data now exists for the range. If still empty after collection, stop and report the failure to the user with the relevant logs before proceeding.
+
+   e. Continue to Phase 2 once data is confirmed present.
+
 ### Phase 2 — Discover & Map Reference Data
 
 1. **Pick the best reference source(s)** based on the data domain (see [REFERENCE.md — Source Selection Guide](REFERENCE.md)):
