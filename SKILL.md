@@ -26,6 +26,15 @@ Run these phases sequentially. Present the plan after Phase 2 and wait for user 
    - Whether amounts are in raw units, decimals-adjusted, or USD-denominated
    - Any protocol-specific fields
 
+3. **Ask the user about the block/time range to use for validation**:
+
+   > "Should the validation use a specific block range or time window, or should I detect the available range directly from your dataset?"
+
+   - **Option A — Specific range**: User provides explicit bounds (e.g., block 19000000–19500000, or 2024-01-01 to 2024-01-31). Use these exact bounds when querying reference sources.
+   - **Option B — Dataset range**: Inspect the dataset to find `MIN` and `MAX` of the block number or timestamp column and use those as the validation window.
+
+   Once the range is confirmed, state it explicitly before proceeding to Phase 2 (e.g., "Validating over blocks 19000000–19500000 / 2024-01-01 to 2024-01-31").
+
 ### Phase 2 — Discover & Map Reference Data
 
 1. **Pick the best reference source(s)** based on the data domain (see [REFERENCE.md — Source Selection Guide](REFERENCE.md)):
